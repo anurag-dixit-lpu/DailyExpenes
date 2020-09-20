@@ -1,0 +1,51 @@
+.Daily-Expenses-Categories-Table {
+  border-collapse: collapse;
+  border: 0;
+  border-spacing: 0;
+}
+
+.scroll-y {
+  max-height: 450px;
+  overflow-y: scroll
+}
+
+.Daily-Expenses-Categories-Table {
+  max-height: 900px;
+  height: 600px;
+  overflow: scroll;
+  font-size: 12px;
+}
+
+  .Daily-Expenses-Categories-Table table {
+    width: 100%;
+    min-width: 668px;
+    font-size: 12px;
+    color: darkred;
+    border-collapse: collapse;
+  }
+
+    .Daily-Expenses-Categories-Table table th, td {
+      padding: 10px 10px 10px 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: 1px solid lightblue;
+      border-collapse: collapse;
+    }
+
+    .Daily-Expenses-Categories-Table table th {
+      background-color: lightblue;
+      border-bottom: 1px solid darkred;
+    }
+
+
+/*#DailyExpensesCategoriesTable {
+  position: relative;
+}
+
+  #DailyExpensesCategoriesTable #thead_categories th {
+    position: sticky;
+  }
+
+  #DailyExpensesCategoriesTable #tbody_categories {*/
+/*margin-top: 34px;*/
+/*}*/

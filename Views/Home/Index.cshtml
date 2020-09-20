@@ -1,0 +1,173 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Daily Expenses</title>
+	<link href="~/DailyExpenses/DailyExpenses.css" rel="stylesheet" />
+	<link href="~/DailyExpenses/dailyExpensesTable.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+	<link href="~/DailyExpenses/dailyExpensesTable.css" rel="stylesheet" />
+	<script src="~/DailyExpenses/table.js"></script>
+</head>
+<body>
+
+	<div class="header">
+		<div class="header-left">
+			<span>Daily Expenses</span>
+		</div>
+		<div class="header-right" onclick="toggleMenuBar(this)">
+			<div class="bar1"></div>
+			<div class="bar2"></div>
+			<div class="bar3"></div>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 50px;">
+		<div class="col-3 menu">
+			<ul>
+				<li id="DE" class="active-menu">Daily Expenses</li>
+				<li id="DEC">Daily Expenses Categories</li>
+				<li id="ME">Monthly Expenses</li>
+				<li id="YE">Yearly Expenses</li>
+				<li id="CWE">Category Wise Expenses</li>
+			</ul>
+		</div>
+
+		<div class="col-9">
+			<div class="content">
+
+				@*Daily Expenses Start*@
+				<div id="DailyExpenses" class="Tab Daily-Expenses" data="DE">
+
+					<div class="tab-header" ContainerId="#DailyExpenses_Entry">
+						<span>Daily Expenses Entry</span>
+					</div>
+
+					<div class="Entry" id="DailyExpenses_Entry">
+
+						<div class="row">
+							<div class="col-6">
+								<label>Select Category</label>
+								<select id="selectDailyExpenesCategory">
+								</select>
+							</div>
+							<div class="col-6">
+								<label>Create Date</label>
+								<input type="date" id="txtCreateDate" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-6">
+								<label>Budgeted Amount</label>
+								<input type="number" step="100" min="0" id="txtBudgetedAmount" />
+							</div>
+							<div class="col-6">
+								<label>Spent Amount</label>
+								<input type="number" step="100" min="0" id="txtSpentAmount" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<label>Notes</label>
+								<input type="text" id="txtNotesDailyExpenes" />
+								<input type="hidden" id="txtHiddenIdDailyExpenes" value="0" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<button type="button" id="btnDailyExpenses">Click to Save</button>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="tab-header" ContainerId="#DailyExpenses_Summary">
+						<span>Daily Expenses Summary</span>
+					</div>
+
+					<div class="Entry" id="DailyExpenses_Summary">
+
+						<div class="row">
+							<div class="col-12">
+								<div class="Daily-Expenses-Categories-Table" id="DailyExpensesTable">
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+				@*Daily Expenses Category Start*@
+				<div id="DailyExpensesCategories" class="Tab Daily-Expenses-Categories hidden" data="DEC">
+
+					<div class="tab-header" ContainerId="#DailyExpensesCategories_Entry">
+						<span>Daily Expenses Category Entry</span>
+					</div>
+
+					<div class="Entry" id="DailyExpensesCategories_Entry">
+
+						<div class="row">
+							<div class="col-4">
+								<label>Short Name</label>
+								<input type="text" id="txtShortName" />
+							</div>
+							<div class="col-4">
+								<label>Full Name</label>
+								<input type="text" id="txtFullName" />
+							</div>
+							<div class="col-4">
+								<label>Notes</label>
+								<input type="text" id="txtNotes" />
+								<input type="hidden" id="txtHiddenId" value="0" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<button type="button" id="btn_DailyExpensesCategories">Click to Save</button>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="tab-header" ContainerId="#DailyExpensesCategories_Summary">
+						<span>Daily Expenses Category Summary</span>
+					</div>
+
+					<div class="Entry" id="DailyExpensesCategories_Summary">
+						<div class="row">
+							<div class="col-12">
+								<div class="Daily-Expenses-Categories-Table" id="DailyExpensesCategoriesTable">
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	@*Modal Start*@
+	<div class="modal">
+		<div class="modal-content">
+			<span>Please wait..</span>
+		</div>
+	</div>
+
+	<script src="~/DailyExpenses/DailyExpenses.js" type="text/javascript"></script>
+
+</body>
+</html>
