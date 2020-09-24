@@ -180,7 +180,7 @@ function getDailyExpenses() {
 			if (applyCustomAttributesOnTable("DailyExpenses") > 0) {
 				document.querySelector("#DailyExpensesTable").innerHTML = '';
 			}
-
+			console.log(data);
 			createDailyExpensesTable(data);
 			hideProgreesBar();
 
