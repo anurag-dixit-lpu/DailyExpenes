@@ -11,14 +11,14 @@
 
 .Daily-Expenses-Categories-Table {
 	max-height: 600px;
-	height: 570px;
+	height: 460px;
 	overflow: hidden;
 	min-width: 688px;
 }
 
 	.Daily-Expenses-Categories-Table .tbody-div {
 		max-height: 600px;
-		height: 500px;
+		height: 380px;
 		overflow-y: scroll;
 		font-size: 12px;
 	}
@@ -43,6 +43,9 @@
 			border-bottom: 1px solid darkred;
 		}
 
+.tfoot-div td {
+	border-top: 1px solid darkred;
+}
 
 /*#DailyExpensesCategoriesTable {
   position: relative;
