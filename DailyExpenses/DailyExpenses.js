@@ -180,7 +180,7 @@ function getDailyExpenses() {
 			if (applyCustomAttributesOnTable("DailyExpenses") > 0) {
 				document.querySelector("#DailyExpensesTable").innerHTML = '';
 			}
-			console.log(data);
+			//console.log(data);
 			createDailyExpensesTable(data);
 			hideProgreesBar();
 
@@ -218,27 +218,28 @@ function populateToEntryDailyExpenses(id, catId, ba, sa, cd, notes) {
 
 function createDailyExpensesCategoriesTable(data) {
 	let newTable = new table({
+		sortable: false,
 		data: data,
 		id: document.querySelector('#DailyExpensesCategoriesTable'),
 		name: 'categories',
 		colNames: ['ID', 'Short Name', 'Full Name', 'Notes', 'Created Date'],
 		colModel: [
 			{
-				index: 'ID', width: 50, align: 'right', sortable: false, show: true, show_footer_aggregation: false,
+				index: 'ID', width: 50, align: 'right', sortable: true, type: 'number', show: true, show_footer_aggregation: false,
 				body_callback: (td, value, dataRow) => {
 					return '<a href="javascript:void(0)" onclick="populateToEntry(' + value + ', \'' + dataRow.SHORT_NAME + '\', \'' + dataRow.NOTES + '\', \'' + dataRow.FULL_NAME + '\');">' + value + '</a > ';
 				}
 			},
-			{ index: 'SHORT_NAME', width: 70, align: 'left', sortable: false, show: true, show_footer_aggregation: false },
-			{ index: 'FULL_NAME', width: 100, align: 'left', sortable: false, show: true, show_footer_aggregation: false },
+			{ index: 'SHORT_NAME', width: 70, align: 'left', sortable: true, show: true, show_footer_aggregation: false },
+			{ index: 'FULL_NAME', width: 100, align: 'left', sortable: true, show: true, show_footer_aggregation: false },
 			{
-				index: 'NOTES', width: 150, align: 'left', sortable: false, show: true,
+				index: 'NOTES', width: 150, align: 'left', sortable: true, show: true,
 				edit: false, edit_uri: (row, current_val) => {
 					return `http://192.168.1.24/MoneyFlow/api/category/${row['Index']}?text=${current_val}`;
 				},
 				show_footer_aggregation: false
 			},
-			{ index: 'ROW_CREATE_DATE_STRING', width: 110, align: 'center', sortable: false, show: true, show_footer_aggregation: false },
+			{ index: 'ROW_CREATE_DATE_STRING', type: 'date', width: 110, align: 'center', sortable: true, show: true, show_footer_aggregation: false },
 		]
 	})
 
@@ -254,34 +255,34 @@ function createDailyExpensesTable(data) {
 		colNames: ['ID', 'Spent In', 'Budget', 'Spent', 'Remng.', 'Notes', 'Date'],
 		colModel: [
 			{
-				index: 'ID', width: 40, align: 'right', sortable: false, show: true, show_footer_aggregation: false,
+				index: 'ID', width: 40, align: 'right', sortable: true, show: true, show_footer_aggregation: false, type: 'number',
 				body_callback: (td, value, dataRow) => {
-					td.style.background = "lightblue"
+					//td.style.background = "lightblue"
 					return '<a href="javascript:void(0)" onclick="populateToEntryDailyExpenses(' + value + ', \'' + dataRow.TBL_DE_CATEGORY_ID + '\', \'' + dataRow.BudgetedAmount + '\', \'' + dataRow.SpentAmount + '\', \'' + dataRow.yyyy_MM_dd + '\', \'' + dataRow.NOTES + '\');">' + value + '</a > ';
 				}
 			},
-			{ index: 'TBL_DE_CATEGORY_SHORT_NAME', width: 70, align: 'left', sortable: false, show: true, show_footer_aggregation: false },
+			{ index: 'TBL_DE_CATEGORY_SHORT_NAME', width: 80, align: 'left', sortable: true, show: true, show_footer_aggregation: false },
 			{
 				index: 'BudgetedAmount', width: 50,
-				align: 'right', sortable: false, show: true, show_footer_aggregation: true,
-				footer_callback: footer_formatter
+				align: 'right', sortable: true, show: true, show_footer_aggregation: true,
+				footer_callback: footer_formatter, type: 'number'
 			},
 			{
-				index: 'SpentAmount', width: 50, align: 'right', sortable: false, show: true,
-				show_footer_aggregation: true, footer_callback: footer_formatter
+				index: 'SpentAmount', width: 50, align: 'right', sortable: true, show: true,
+				show_footer_aggregation: true, footer_callback: footer_formatter, type: 'number'
 			},
 			{
-				index: 'RemainingAmount', width: 50, align: 'right', sortable: false, show: true, show_footer_aggregation: true,
-				footer_callback: footer_formatter
+				index: 'RemainingAmount', width: 50, align: 'right', sortable: true, show: true, show_footer_aggregation: true,
+				footer_callback: footer_formatter, type: 'number'
 			},
 			{
-				index: 'NOTES', width: 100, align: 'left', sortable: false, show: true,
+				index: 'NOTES', width: 100, align: 'left', sortable: true, show: true,
 				edit: false, edit_uri: (row, current_val) => {
 					return `http://192.168.1.24/MoneyFlow/api/category/${row['Index']}?text=${current_val}`;
 				},
 				show_footer_aggregation: false
 			},
-			{ index: 'STRING_CREATE_DATE', width: 110, align: 'center', sortable: false, show: true, show_footer_aggregation: false },
+			{ index: 'STRING_CREATE_DATE', width: 110, align: 'center', sortable: true, show: true, show_footer_aggregation: false, type: 'date', },
 		]
 	})
 

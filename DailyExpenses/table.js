@@ -8,7 +8,7 @@ class table {
 		// this.class = table_configuration.class;
 		// console.log(table_configuration)
 		// this.id.appendChild(this.create_thead())
-		this.sort = [{ SORT: table_configuration.sort }]
+		this.sort_cache = { SORT: table_configuration.sort, INDEX: 0, COL_NAME: '' }
 		this.current_edit = { col_name: '', row_index: -1, prev_val: '', current_val: '', is_save_button_shown: false }
 		this.sub_grid_cache = []
 	}
@@ -61,13 +61,12 @@ class table {
 
 			let thElement = document.createElement('th')
 
-			if (this.has_m('sortable') &&
-				this.t_c.colModel[index].sortable) {
-				thElement.setAttribute('onclick', `header_sort("${this.t_c.colModel[index].index}")`)
-			}
-
 			thElement.innerHTML = this.has_h('header_callback') ?
 				this.t_c.header_callback(thElement, item, index) : this.headerCallback(thElement, item, index);
+
+			if (this.t_c.colModel[index].hasOwnProperty('sortable') && this.t_c.colModel[index].sortable) {
+				this.attach_sorting_events(thElement);
+			}
 
 			trElement.appendChild(thElement)
 		})
@@ -115,7 +114,7 @@ class table {
 						let chached_sub = this.sub_grid_cache.filter(x => x.IDENTITY == row.BudgetIndex)
 
 						if (chached_sub.length > 0 && chached_sub[0].is_shown) {
-							console.log(chached_sub[0]) // remove after testing
+							// console.log(chached_sub[0]) // remove after testing
 							chached_sub[0].is_shown = false;
 							parent_table.deleteRow(row_index_sub + 1); // delete row
 							tdElement.innerHTML = '&#x25BA;' // change icon
@@ -364,12 +363,11 @@ class table {
 		let plus_or_minues = ''
 
 		plus_or_minues =
-			`<div 
-                style='border-width: 8px; border-style: solid; 
-                border-color: #e06c75 transparent transparent transparent; content: " "; 
-                width:10px; margin-left:45%'>
-            </div>
-            <span>${name}</span>`
+			`<div class="table-sort">
+				<div class="header-text">${name}</div>
+				<div class="table-sort-icon" colName="${this.t_c.colModel[index].index}" index="${index}">
+				</div>
+			</div>`
 
 		if (this.t_c.colModel[index].hasOwnProperty('sortable') && this.t_c.colModel[index].sortable) {
 			return plus_or_minues;
@@ -433,6 +431,85 @@ class table {
 		}
 		httpRequest.open("GET", "http://192.168.1.24/MoneyFlow/api/Category", false);
 		httpRequest.send();
+	}
+
+	attach_sorting_events(thElement) {
+		let element = thElement.querySelector('.table-sort-icon')
+		element.addEventListener('click', (e) => {
+			//change icon to desc/asc for columns
+			thElement.classList.add("active-sort-col")
+			let sort_order = e.target.classList.toggle("desc") ? 'DESC' : 'ASC';
+
+			// Remove existing data
+			let main_table = this.get_table('tbody')
+			main_table.innerHTML = "";
+
+			// update sorted data
+			let colIndex = parseInt(e.target.getAttribute('index'))
+			let colName = e.target.getAttribute('colName')
+			let colDatatype = ''
+
+			this.sort_cache.INDEX = colIndex // Keep cache
+			this.sort_cache.COL_NAME = colName // Keep cache
+
+			// remove existing styles
+			let sort_icons = thElement.parentElement.querySelectorAll('.table-sort-icon');
+			sort_icons.forEach((icon, i) => {
+				i === colIndex ? '' : icon.classList.remove('desc');
+			})
+
+			thElement.parentElement.querySelectorAll('th').forEach((tableHeader, i) => {
+				i === colIndex ? '' : tableHeader.classList.remove('active-sort-col')
+			})
+
+			if (this.t_c.colModel[colIndex].hasOwnProperty('type')) { //get sort order
+				colDatatype = this.t_c.colModel[colIndex].type;
+			} else {
+				colDatatype = "string";
+			}
+
+			if (colDatatype.toUpperCase() === 'NUMBER') {
+				if (sort_order === "DESC") {
+					this.t_c.data = this.t_c.data.sort((a, b) => b[colName] - a[colName]);
+				}
+				else {
+					this.t_c.data = this.t_c.data.sort((a, b) => a[colName] - b[colName]);
+				}
+
+			} else if (colDatatype.toUpperCase() === 'STRING') {
+				if (sort_order === "ASC") {
+					this.t_c.data = this.t_c.data.sort((a, b) => {
+						if (a[colName] > b[colName]) {
+							return 1
+						} else if (a[colName] < b[colName]) {
+							return -1
+						}
+
+						return 0;
+					});
+				} else {
+					this.t_c.data = this.t_c.data.sort((a, b) => {
+						if (a[colName] > b[colName]) {
+							return -1
+						} else if (a[colName] < b[colName]) {
+							return 1
+						}
+
+						return 0;
+					});
+				}
+			} else if (colDatatype.toUpperCase() === 'DATE') {
+				if (sort_order === "DESC") {
+					this.t_c.data = this.t_c.data.sort((a, b) => new Date(b[colName]) - new Date(a[colName]));
+				}
+				else {
+					this.t_c.data = this.t_c.data.sort((a, b) => new Date(a[colName]) - new Date(b[colName]));
+				}
+			}
+
+			// create main table once again
+			this.create_tbody()
+		})
 	}
 }
 

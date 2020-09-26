@@ -34,17 +34,23 @@
 			padding: 10px 10px 10px 10px;
 			padding-left: 10px;
 			padding-right: 10px;
-			border: 1px solid lightblue;
+			border: 1px solid #bee5eb;
 			border-collapse: collapse;
+			color: #0c5460;
+			background-color: #d1ecf1;
+			transition: 500ms;
 		}
 
 		.Daily-Expenses-Categories-Table table th {
-			background-color: lightblue;
-			border-bottom: 1px solid darkred;
+			background-color: #d1ecf1;
+			border-bottom: 1px solid #0c5460;
+			color: #062c33;
+			box-shadow: inset 1px 1px 1px blue, -1px -1px 1px blue;
+			transition: 500ms;
 		}
 
 .tfoot-div td {
-	border-top: 1px solid darkred;
+	border-top: 1px solid #0c5460;
 }
 
 /*#DailyExpensesCategoriesTable {
@@ -58,3 +64,39 @@
   #DailyExpensesCategoriesTable #tbody_categories {*/
 /*margin-top: 34px;*/
 /*}*/
+
+.table-sort {
+	display: flex;
+	justify-content: space-between;
+	transition: 500ms;
+}
+
+.table-sort-icon {
+	border-width: 8px;
+	border-style: solid;
+	border-color: #4682b4 transparent transparent transparent;
+	content: " ";
+	width: 10px;
+	float: right;
+	transition: 500ms;
+	cursor: pointer;
+}
+
+/*.table-sort-icon:hover {
+		border-color: #003366 transparent transparent transparent;
+	}*/
+
+.asc {
+}
+
+.desc {
+	border-color: transparent transparent #4682b4 transparent;
+}
+
+.active-sort-col {
+	box-shadow: inset 4px 4px 8px darkblue !important;
+}
+
+.header-text {
+	width: 100%;
+}
