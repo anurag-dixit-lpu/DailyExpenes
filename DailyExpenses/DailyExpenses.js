@@ -1,5 +1,9 @@
 var isPostBack = false;
 
+function url_string() {
+	return document.querySelector('#WEB_API_URL_PART').value;
+}
+
 function setUpCollapsible() {  /*********ANIMATION or Effets ************/
 
 	document.querySelectorAll('.tab-header').forEach(header => {
@@ -103,7 +107,7 @@ function saveDailyExpenses() {
 	let sa = document.getElementById("txtSpentAmount");
 	let cd = document.getElementById("txtCreateDate");
 	let notes = document.getElementById("txtNotesDailyExpenes");
-	let uri = `https://192.168.1.24:442/MoneyFlow/api/Budget/SaveDailyExpenses?id=${id.value}&c_id=${c_id}&ba=${ba.value}&sa=${sa.value}&cd=${cd.value}&notes=${notes.value}`;
+	let uri = `${url_string()}Budget/SaveDailyExpenses?id=${id.value}&c_id=${c_id}&ba=${ba.value}&sa=${sa.value}&cd=${cd.value}&notes=${notes.value}`;
 	console.log(uri)
 	$.ajax({
 		url: uri,
@@ -132,7 +136,7 @@ function saveDailyExpensesCategory() {
 	let notes = document.getElementById("txtNotes");
 
 	$.ajax({
-		url: 'https://192.168.1.24:442/MoneyFlow/api/Category/SaveDailyExpensesCategories?id=' + id.value + "&sn=" + sName.value + "&fn=" + fName.value + "&notes=" + notes.value,
+		url: url_string() + 'Category/SaveDailyExpensesCategories?id=' + id.value + "&sn=" + sName.value + "&fn=" + fName.value + "&notes=" + notes.value,
 		type: 'POST',
 		dataType: 'json',
 		data: [],
@@ -152,7 +156,7 @@ function saveDailyExpensesCategory() {
 
 function getDailyExpensesCategory() {
 	$.ajax({
-		url: 'https://192.168.1.24:442/MoneyFlow/api/category/GetDailyExpensesCategories',
+		url: url_string() + 'category/GetDailyExpensesCategories',
 		type: 'GET',
 		dataType: 'json',
 		success: function (data, textStatus, xhr) {
@@ -173,7 +177,7 @@ function getDailyExpensesCategory() {
 
 function getDailyExpenses() {
 	$.ajax({
-		url: 'https://192.168.1.24:442/MoneyFlow/api/Budget/GetDailyExpenses',
+		url: url_string() + 'Budget/GetDailyExpenses',
 		type: 'GET',
 		dataType: 'json',
 		success: function (data, textStatus, xhr) {
@@ -347,7 +351,7 @@ function bindCategories(selectID) {
 
 		}
 	}
-	httpRequest.open("GET", "https://192.168.1.24:442/MoneyFlow/api/category/GetDailyExpensesCategories", false);
+	httpRequest.open("GET", `${url_string()}category/GetDailyExpensesCategories`, false);
 	httpRequest.send();
 }
 

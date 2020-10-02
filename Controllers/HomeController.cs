@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 
 namespace DailyExpenes.Controllers
 {
@@ -10,6 +11,8 @@ namespace DailyExpenes.Controllers
 	{
 		public ActionResult Index()
 		{
+			ViewBag.WEB_API_URL_PART = ConfigurationManager.AppSettings["WEB_API_URL_PART"];
+
 			return View();
 		}
 
